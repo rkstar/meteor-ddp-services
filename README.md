@@ -40,8 +40,11 @@ You can use either an `ip` or a `hostname` for the `{"ip": "127.0.0.1"}` propert
 You can get a DDP connection reference back to any of your pre-defined servers.
 ```javascript
 let Server1 = DDPServices.connect('server1')
+
+// call a Meteor.method on Server1
 Server1.call('some_method_on_server1')
 
+// use a collection maintained by Server1
 let myCollection = new Mongo.Collection('myCollection', {connection: Server1})
 Server1.subscribe('myCollection')
 
