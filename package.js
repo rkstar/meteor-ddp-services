@@ -1,6 +1,6 @@
 Package.describe({
   name: 'rkstar:ddp-services',
-  version: '0.2.1',
+  version: '0.3.0',
   // Brief, one-line summary of the package.
   summary: 'Allow easy setup of DDP connections between Meteor servers.',
   // URL to the Git repository containing the source code for this package.
@@ -17,4 +17,6 @@ Package.onUse(function(api) {
   api.use('underscore')
 
   api.addFiles('server.js', 'server')
+
+  api.export('DDPServices')
 })
