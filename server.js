@@ -1,17 +1,21 @@
-let os = Npm.require('os'),
-  services = Meteor.settings.ddpServices,
+const os = Npm.require('os'),
+  services = Meteor.settings.ddpServices || null,
   hostname = (ip)=>{
     return (ip == '0.0.0.0') ? os.hostname() : ip
   }
 
 DDPServices = {
   connect(service){
-    return DDP.connect(this[service.toLowerCase()].url)
+    const slc = service.toLowerCase(),
+      ddps = (slc) ? this[slc] : null
+    return (!_.isNull(ddps) && _.isObject(ddps)) ? DDP.connect(ddps.url) : null
   }
 }
-_.keys(services).map((service)=>{
-  let {ip, port} = services[service]
-  DDPServices[service] = {
-    url: `http://${hostname(ip)}:${port}`
-  }
-})
+if( !_.isNull(services) && _.isObject(services) ){
+  _.keys(services).map((service)=>{
+    let {ip, port} = services[service]
+    DDPServices[service] = {
+      url: `http://${hostname(ip)}:${port}`
+    }
+  })
+}
